@@ -28,7 +28,7 @@ void dataReceived(uint8_t *senderMac, uint8_t *data, uint8_t dataLength) {
   
   memcpy(&packet, data, sizeof(packet));
   
-  Serial.print("sensor: ");
+  Serial.print("XY values: ");
   Serial.print(packet.X_value);
   Serial.print("  / ");
   Serial.println(packet.Y_value);
@@ -41,7 +41,7 @@ void setup() {
   Serial.println();
   Serial.print("Initializing...");
   Serial.print(MY_NAME);
-  Serial.print("  My MAC address is: ");
+  Serial.print(".  My MAC address is: ");
   Serial.print(WiFi.macAddress());
 
   WiFi.mode(WIFI_STA);
@@ -52,6 +52,7 @@ void setup() {
     return;
   }
 
+  esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
   esp_now_register_recv_cb(dataReceived);   // this function will get called once all data is sent
 
   Serial.println("  ... Initialized.");
